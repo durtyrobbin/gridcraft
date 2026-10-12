@@ -251,6 +251,12 @@ pub(crate) fn anchor_rect(geo: &Geo, sh: &Sheet, a: &Anchor) -> Rect {
 
 static TEXTURES: std::sync::LazyLock<Mutex<HashMap<(u32, usize), egui::TextureHandle>>> = std::sync::LazyLock::new(|| Mutex::new(HashMap::new()));
 
+/// A containing editor has replaced linked picture bytes without changing object
+/// IDs. Encoded length is not a content identity; discard those cached textures.
+pub fn invalidate_linked_pictures() {
+    TEXTURES.lock().unwrap_or_else(std::sync::PoisonError::into_inner).clear();
+}
+
 /// The shapes one floating object painted (indices into the painter's layer) and its logical
 /// rectangle, so a right-to-left sheet can move it as a whole instead of mirroring it.
 pub(crate) struct PaintedObject {
