@@ -1,0 +1,2 @@
+# The generated parity checker compares exact text on every platform.
+/docs/parity-checklist.md text eol=lf
